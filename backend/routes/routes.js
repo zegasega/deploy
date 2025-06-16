@@ -4,7 +4,7 @@ const userController = require("../controllers/userController");
 const authMiddleware = require("../middleware/auth");
 const roleMiddleware = require("../middleware/role");
 const postController = require("../controllers/postController");
-
+const categoriyController = require("../controllers/categoryController");
 
 // User routes
 router.get("/users", authMiddleware,  (req, res) => userController.getAllUsers(req, res));
@@ -26,5 +26,12 @@ router.post("/posts", authMiddleware, (req, res) => postController.createPost(re
 router.put("/posts/:id", authMiddleware, (req, res) => postController.updatePost(req, res));
 router.delete("/posts/:id", authMiddleware, (req, res) => postController.deletePost(req, res));
 
+
+// Category routes
+router.get("/categories", authMiddleware, (req, res) => categoriyController.getAll(req, res));
+router.get("/categories/:id", authMiddleware, (req, res) => categoriyController.getById(req, res));
+router.post("/categories", authMiddleware, roleMiddleware("admin"), (req, res) => categoriyController.create(req, res));
+router.put("/categories/:id", authMiddleware, roleMiddleware("admin"), (req, res) => categoriyController.update(req, res));
+router.delete("/categories/:id", authMiddleware, roleMiddleware("admin"), (req, res) => categoriyController.delete(req, res));
 
 module.exports = router;

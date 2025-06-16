@@ -9,6 +9,14 @@ class postService extends BaseService{
 
     async createPost(postPayload) {
         const newPost = await this.db.Post.create(postPayload);
+
+        const existingCategory = await this.db.Category.findOne({
+            where: { id: postPayload.category_id }
+        });
+        if (!existingCategory) {
+            throw new Error("Category not found");
+        }
+
         return newPost;
     }
 
@@ -45,6 +53,11 @@ class postService extends BaseService{
         const posts = await this.db.Post.findAll({
             include: [{ model: this.db.User, as: 'author' }]
         });
+
+        if (posts.length === 0) {
+            throw new Error("No posts found");
+        }
+        
         return posts;
     }
 

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Register Form</title>
+</head>
+<body>
+  <h1>Kayıt Ol</h1>
+
+  <form id="registerForm">
+    <label>
+      Kullanıcı Adı:<br />
+      <input type="text" id="username" required />
+    </label><br /><br />
+
+    <label>
+      Email:<br />
+      <input type="email" id="email" required />
+    </label><br /><br />
+
+    <label>
+      Şifre:<br />
+      <input type="password" id="password" required />
+    </label><br /><br />
+
+    <button type="submit">Kayıt Ol</button>
+  </form>
+
+  <p id="message"></p>
+
+  <script>
+    const form = document.getElementById('registerForm');
+    const message = document.getElementById('message');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const payload = {
+        username: document.getElementById('username').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        password: document.getElementById('password').value,
+      };
+
+      try {
+        const response = await fetch('http://localhost:3000/auth/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          message.style.color = 'green';
+          message.textContent = 'Kayıt başarılı! Hoşgeldiniz, ' + data.user.username;
+        } else {
+          const errorData = await response.json();
+          message.style.color = 'red';
+          message.textContent = 'Hata: ' + (errorData.message || 'Kayıt başarısız.');
+        }
+      } catch (err) {
+        message.style.color = 'red';
+        message.textContent = 'Sunucuya bağlanırken hata oluştu.';
+      }
+    });
+  </script>
+</body>
+</html>

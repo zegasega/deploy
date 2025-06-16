@@ -7,7 +7,11 @@ class postController extends BaseController{
 
     async createPost(req, res) {
         try {
-            const postPayload = req.body;
+            const userId = req.user.id;
+            const postPayload =  {
+                ...req.body,
+                user_id: userId
+            };
             const result = await this.service.postService.createPost(postPayload);
             res.status(201).json(result);
         } catch (error) {
@@ -70,3 +74,5 @@ class postController extends BaseController{
 
 
 }
+
+module.exports = new postController();
