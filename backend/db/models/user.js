@@ -1,3 +1,5 @@
+const { allow } = require("joi");
+
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
     id: {
@@ -22,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
     role: {
       type: DataTypes.ENUM('user', 'admin', 'superadmin'),
       defaultValue: 'user',
-      allowNull: false,
+      allowNull: true,
     },
     jwtTokenVersion: {
       type: DataTypes.INTEGER,

@@ -1,6 +1,7 @@
 const BaseService = require("../core/base_service");
 
 const db = require("../db/index");
+const role = require("../middleware/role");
 
 class userService extends BaseService{
     constructor() {
@@ -24,6 +25,7 @@ class userService extends BaseService{
         username: userPayload.username,
         email: userPayload.email,
         password: hashedPassword,
+        role: userPayload.role,
         jwtTokenVersion: 0 // Initialize JWT token version
     };
     const createdUser = await this.db.User.create(newUser);
@@ -33,7 +35,8 @@ class userService extends BaseService{
         user: {
             id: createdUser.id,
             username: createdUser.username,
-            email: createdUser.email
+            email: createdUser.email,
+            role: createdUser.role
         }
     };
 }
