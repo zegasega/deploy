@@ -8,17 +8,19 @@ class postService extends BaseService{
     }
 
     async createPost(postPayload) {
-        const newPost = await this.db.Post.create(postPayload);
+    const existingCategory = await this.db.Category.findOne({
+        where: { id: postPayload.category_id }
+    });
 
-        const existingCategory = await this.db.Category.findOne({
-            where: { id: postPayload.category_id }
-        });
-        if (!existingCategory) {
-            throw new Error("Category not found");
-        }
-
-        return newPost;
+    if (!existingCategory) {
+        throw new Error("Category not found");
     }
+
+    const newPost = await this.db.Post.create(postPayload);
+
+    return newPost;
+    }
+
 
     async getPostById(postId) {
         const post = await this.db.Post.findByPk(postId, {

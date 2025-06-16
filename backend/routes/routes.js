@@ -6,7 +6,8 @@ const roleMiddleware = require("../middleware/role");
 const postController = require("../controllers/postController");
 const categoriyController = require("../controllers/categoryController");
 const commentController = require("../controllers/commentController");
-
+const validationMiddleware = require("../middleware/validation");
+const validationSchema = require("../validation_Schema/index");
 // User routes
 router.get("/users", authMiddleware,  (req, res) => userController.getAllUsers(req, res));
 router.get("/users/:id", authMiddleware, (req, res) => userController.getUserById(req, res));

@@ -18,7 +18,6 @@ class commentController extends BaseController{
         } catch (error) {
             res.status(400).json({ error: error.message });
         }
-
     }
 
     async getCommentById(req, res) {
