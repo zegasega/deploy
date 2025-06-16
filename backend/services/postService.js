@@ -13,7 +13,7 @@ class postService extends BaseService{
     });
 
     if (!existingCategory) {
-        throw new Error("Category not found");
+        throw new Error("This Category does not exist");
     }
 
     const newPost = await this.db.Post.create(postPayload);
@@ -27,7 +27,7 @@ class postService extends BaseService{
             include: [{ model: this.db.User, as: 'author' }]
         });
         if (!post) {
-            throw new Error("Post not found");
+            throw new Error("There is no post with this ID");
         }
         return post;
     }
