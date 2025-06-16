@@ -35,7 +35,7 @@ class postService extends BaseService{
     async updatePost(postId, postPayload) {
         const post = await this.db.Post.findByPk(postId);
         if (!post) {
-            throw new Error("Post not found");
+            throw new Error("There is no post with this ID");
         }
         await post.update(postPayload);
         return post;
@@ -44,7 +44,7 @@ class postService extends BaseService{
     async deletePost(postId) {
         const post = await this.db.Post.findByPk(postId);
         if (!post) {
-            throw new Error("Post not found");
+            throw new Error("There is no post with this ID");
         }
         await post.destroy();
         return { message: "Post deleted successfully" };

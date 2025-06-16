@@ -17,6 +17,11 @@ async function startServer() {
 
     await db.sequelize.sync({ alter: true, force: true });
     console.log('Tables synchronized');
+
+    // Insert default categories if needed
+    const insertDefaultCategories = require('./generateCategories');
+    await insertDefaultCategories();
+    console.log('Default categories inserted');
     
     server.listen(PORT, () => {
       console.log(`Server is running at http://localhost:${PORT}`);
