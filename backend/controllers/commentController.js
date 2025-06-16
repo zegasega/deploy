@@ -1,3 +1,5 @@
+const BaseController = require('../core/base_controller');
+
 class commentController extends BaseController{
     constructor() {
         super();
