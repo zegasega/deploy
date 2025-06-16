@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  my_mariadb:
+    image: mariadb:latest
+    container_name: my_mariadb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: blogdb
+      MYSQL_USER: bloguser
+      MYSQL_PASSWORD: blogpass
+    ports:
+      - "3307:3306"  # Host 3307 -> Container 3306
+    volumes:
+      - my_mariadb_data:/var/lib/mysql
+
+volumes:
+  my_mariadb_data:
