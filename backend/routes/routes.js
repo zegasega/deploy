@@ -5,6 +5,7 @@ const authMiddleware = require("../middleware/auth");
 const roleMiddleware = require("../middleware/role");
 const postController = require("../controllers/postController");
 const categoriyController = require("../controllers/categoryController");
+const commentController = require("../controllers/commentController");
 
 // User routes
 router.get("/users", authMiddleware,  (req, res) => userController.getAllUsers(req, res));
@@ -33,5 +34,13 @@ router.get("/categories/:id", authMiddleware, (req, res) => categoriyController.
 router.post("/categories", authMiddleware, roleMiddleware("admin"), (req, res) => categoriyController.create(req, res));
 router.put("/categories/:id", authMiddleware, roleMiddleware("admin"), (req, res) => categoriyController.update(req, res));
 router.delete("/categories/:id", authMiddleware, roleMiddleware("admin"), (req, res) => categoriyController.delete(req, res));
+
+// comments routes
+router.get("/comments", authMiddleware, (req, res) => commentController.getAllComments(req, res));
+router.get("/comments/:id", authMiddleware, (req, res) => commentController.getCommentById(req, res));
+router.post("/comments", authMiddleware, (req, res) => commentController.createComment(req, res));
+router.put("/comments/:id", authMiddleware, (req, res) => commentController.updateComment(req, res));
+router.delete("/comments/:id", authMiddleware, (req, res) => commentController.deleteComment(req, res));
+router.get("/comments/post/:postId", authMiddleware, (req, res) => commentController.getCommentsByPostId(req, res));
 
 module.exports = router;
