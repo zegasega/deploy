@@ -59,3 +59,36 @@ Table post_tags {
   tag_id int [ref: > tags.id]
   Note: "Many-to-many relationship between posts and tags"
 }
+
+
+### ✅ Register (Kayıt Ol)
+
+**Endpoint:** `POST /register`
+
+**Request Body:**
+```json
+{
+  "username": "johndoe",
+  "email": "johndoe@example.com",
+  "password": "securePassword123",
+  "role": "user"
+}
+
+#login
+{
+  "email": "johndoe@example.com",
+  "password": "securePassword123"
+}
+
+
+#logout
+
+acces token ile istek atman yeterli ben useridsini acces tokendan alıyorum
+
+
+#update user
+{
+  "username": "newUsername",
+  "email": "newemail@example.com",
+  "password": "newPassword123"
+}
