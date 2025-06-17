@@ -57,8 +57,8 @@ class userService extends BaseService{
             throw new Error("Invalid password");
         }
 
-       const accessToken = this.Utils.generateAccessToken({ id: user.id, jwtTokenVersion: user.jwtTokenVersion });
-       const refreshToken = this.Utils.generateRefreshToken({ id: user.id, jwtTokenVersion: user.jwtTokenVersion });
+       const accessToken = this.Utils.generateAccessToken({id: user.id, username: user.username, role: user.role, jwtTokenVersion: user.jwtTokenVersion});
+       const refreshToken = this.Utils.generateRefreshToken({id: user.id, username: user.username, role: user.role, jwtTokenVersion: user.jwtTokenVersion});
 
         
         return {
