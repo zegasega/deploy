@@ -27,7 +27,7 @@ router.get("/posts/:id", authMiddleware, (req, res) => postController.getPostByI
 router.post("/posts", authMiddleware,(req, res) => postController.createPost(req, res));
 router.put("/posts/:id", authMiddleware, (req, res) => postController.updatePost(req, res));
 router.delete("/posts/:id", authMiddleware, (req, res) => postController.deletePost(req, res));
-
+router.get("/post/user/:id",(req, res) =>  postController.getPostsByUserId(req,res));
 
 // Category routes
 router.get("/categories", authMiddleware, (req, res) => categoriyController.getAll(req, res));

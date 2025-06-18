@@ -2,6 +2,7 @@ const http = require('http');
 const app = require('./app');
 const db = require('./db/index');
 require('dotenv').config();
+const insertDefaultCategories = require('./generateCategories');
 
 
 
@@ -19,7 +20,6 @@ async function startServer() {
     console.log('Tables synchronized');
 
     // Insert default categories if needed
-    const insertDefaultCategories = require('./generateCategories');
     await insertDefaultCategories();
     console.log('Default categories inserted');
     
