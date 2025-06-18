@@ -32,14 +32,20 @@ class postService extends BaseService{
         return post;
     }
 
-    async updatePost(postId, postPayload) {
-        const post = await this.db.Post.findByPk(postId);
+    async updatePost({ postId, userId, updateData }) {
+        const post = await this.model.findByPk(postId);
         if (!post) {
-            throw new Error("There is no post with this ID");
+        throw new Error("Post bulunamadı.");
         }
-        await post.update(postPayload);
+
+        if (post.user_id !== userId) {
+        throw new Error("Bu postu güncelleme yetkiniz yok.");
+        }
+
+        await post.update(updateData);
+
         return post;
-    }
+    } 
 
     async deletePost(postId) {
         const post = await this.db.Post.findByPk(postId);
