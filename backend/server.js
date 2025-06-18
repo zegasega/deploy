@@ -19,7 +19,6 @@ async function startServer() {
     await db.sequelize.sync({ alter: true, force: false });
     console.log('Tables synchronized');
 
-    // Insert default categories if needed
     await insertDefaultCategories();
     console.log('Default categories inserted');
     

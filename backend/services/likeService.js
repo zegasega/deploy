@@ -4,6 +4,7 @@ const db = require("../db/index");
 class likeService extends BaseService {
   constructor() {
     super(db.Like);
+    this.db = db;
   }
 
   async toggleLike({ userId, postId }) {

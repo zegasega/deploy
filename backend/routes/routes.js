@@ -6,7 +6,7 @@ const roleMiddleware = require("../middleware/role");
 const postController = require("../controllers/postController");
 const categoriyController = require("../controllers/categoryController");
 const commentController = require("../controllers/commentController");
-
+const likeController = require("../controllers/likeController");
 
 
 // User routes
@@ -28,6 +28,7 @@ router.post("/posts", authMiddleware,(req, res) => postController.createPost(req
 router.put("/posts/:id", authMiddleware, (req, res) => postController.updatePost(req, res));
 router.delete("/posts/:id", authMiddleware, (req, res) => postController.deletePost(req, res));
 router.get("/post/user/:id",(req, res) =>  postController.getPostsByUserId(req,res));
+router.post('/like/:postId', authMiddleware, likeController.ToggleLike.bind(likeController));
 
 // Category routes
 router.get("/categories", authMiddleware, (req, res) => categoriyController.getAll(req, res));
@@ -43,5 +44,9 @@ router.post("/comments", authMiddleware, (req, res) => commentController.createC
 router.put("/comments/:id", authMiddleware, (req, res) => commentController.updateComment(req, res));
 router.delete("/comments/:id", authMiddleware, (req, res) => commentController.deleteComment(req, res));
 router.get("/comments/post/:postId", authMiddleware, (req, res) => commentController.getCommentsByPostId(req, res));
+
+
+
+// like
 
 module.exports = router;
