@@ -31,14 +31,29 @@ class postController extends BaseController{
 
     async updatePost(req, res) {
         try {
-            const postId = req.params.id;
-            const postPayload = req.body;
-            const result = await this.service.postService.updatePost(postId, postPayload);
-            res.status(200).json(result);
+        const postId = req.params.id;
+        const userId = req.user.id; // authMiddleware sayesinde
+
+        const { title, content, category_id } = req.body;
+
+        const updateData = {
+            title,
+            content,
+            category_id,
+        };
+
+        const updatedPost = await this.service.postService.updatePost({
+            postId,
+            userId,
+            updateData,
+        });
+
+        res.status(200).json(updatedPost);
         } catch (error) {
-            res.status(400).json({ error: error.message });
+        res.status(403).json({ error: error.message });
         }
     }
+
 
 
     async deletePost(req, res) {

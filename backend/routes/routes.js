@@ -34,7 +34,7 @@ router.post('/like/:postId', authMiddleware, likeController.ToggleLike.bind(like
 router.get("/categories", authMiddleware, (req, res) => categoriyController.getAll(req, res));
 router.get("/categories/:id", authMiddleware, (req, res) => categoriyController.getById(req, res));
 router.post("/categories", authMiddleware, roleMiddleware("admin"),(req, res) => categoriyController.create(req, res));
-router.put("/categories/:id", authMiddleware, roleMiddleware("admin"), (req, res) => categoriyController.update(req, res));
+router.put("/categories/:id", authMiddleware,(req, res) => categoriyController.update(req, res));
 router.delete("/categories/:id", authMiddleware, roleMiddleware("admin"), (req, res) => categoriyController.delete(req, res));
 
 // comments routes

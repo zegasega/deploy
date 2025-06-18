@@ -33,7 +33,8 @@ class postService extends BaseService{
     }
 
     async updatePost({ postId, userId, updateData }) {
-        const post = await this.model.findByPk(postId);
+        const post = await this.db.Post.findByPk(postId);
+        
         if (!post) {
         throw new Error("Post bulunamadı.");
         }
@@ -43,9 +44,10 @@ class postService extends BaseService{
         }
 
         await post.update(updateData);
-
         return post;
     } 
+
+
 
     async deletePost(postId) {
         const post = await this.db.Post.findByPk(postId);
@@ -68,12 +70,16 @@ class postService extends BaseService{
     }
 
     async getPostsByUserId(userId) {
+        const user = await this.db.User.findByPk(userId);
+        if (!user) {
+            throw new Error("userId is required");
+        }
         const posts = await this.db.Post.findAll({
             where: { user_id: userId },
             include: [{ model: this.db.User, as: 'author' }]
         });
         return posts;
-    }
+}
 }
 
 module.exports = new postService();
