@@ -52,9 +52,7 @@ class postService extends BaseService{
 
 
     async getAllPosts() {
-        const posts = await this.db.Post.findAll({
-            include: [{ model: this.db.User, as: 'author' }]
-        });
+        const posts = await this.db.Post.findAll();
 
         if (posts.length === 0) {
             throw new Error("No posts found");

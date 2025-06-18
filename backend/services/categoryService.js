@@ -48,9 +48,7 @@ class categoryService extends BaseService{
     }
 
     async getAllCategories() {
-        const categories = await this.db.Category.findAll({
-            include: [{ model: this.db.Post, as: 'posts' }]
-        });
+        const categories = await this.db.Category.findAll();
 
         if (categories.length === 0) {
             throw new Error("No categories found");
