@@ -79,7 +79,7 @@ class postController extends BaseController{
 
     async getPostsByUserId(req, res) {
         try {
-            const userId = req.params.userId;
+            const userId = req.user.id;
             const result = await this.service.postService.getPostsByUserId(userId);
             res.status(200).json(result);
         } catch (error) {

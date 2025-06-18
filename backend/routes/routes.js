@@ -27,7 +27,7 @@ router.get("/posts/:id", authMiddleware, (req, res) => postController.getPostByI
 router.post("/posts", authMiddleware,(req, res) => postController.createPost(req, res));
 router.put("/posts/:id", authMiddleware, (req, res) => postController.updatePost(req, res));
 router.delete("/posts/:id", authMiddleware, (req, res) => postController.deletePost(req, res));
-router.get("/post/user/:id",(req, res) =>  postController.getPostsByUserId(req,res));
+router.get("/post/user/me", authMiddleware, (req, res) => postController.getPostsByUserId(req, res));
 router.post('/like/:postId', authMiddleware, likeController.ToggleLike.bind(likeController));
 
 // Category routes
