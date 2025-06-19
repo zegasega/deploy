@@ -59,12 +59,14 @@ class postController extends BaseController{
     async deletePost(req, res) {
         try {
             const postId = req.params.id;
-            const result = await this.service.postService.deletePost(postId);
+            const userId = req.user.id;  // Auth middleware’den geliyor
+            const result = await this.service.postService.deletePost(postId, userId);
             res.status(200).json(result);
         } catch (error) {
             res.status(404).json({ error: error.message });
         }
     }
+
 
 
     async getAllPosts(req, res) {
