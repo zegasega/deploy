@@ -60,10 +60,6 @@ class postService extends BaseService{
 
     async getAllPosts() {
         const posts = await this.db.Post.findAll();
-
-        if (posts.length === 0) {
-            throw new Error("No posts found");
-        }
         
         return posts;
     }
@@ -87,6 +83,8 @@ class postService extends BaseService{
                 }
             ]
         });
+
+      
 
         return posts;
     }
