@@ -25,22 +25,46 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
+    created_at: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
+      allowNull: false,
+    },
+    updated_at: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
   }, {
     tableName: 'posts',
-    timestamps: false,
+    timestamps: false, // timestamps: true dersen createdAt & updatedAt otomatik eklenir
     underscored: true,
   });
 
   Post.associate = (models) => {
-    Post.belongsTo(models.User, { foreignKey: 'user_id', as: 'author' });
-    Post.belongsTo(models.Category, { foreignKey: 'category_id', as: 'category' });
+    Post.belongsTo(models.User, {
+      foreignKey: 'user_id',
+      as: 'author',
+      onDelete: 'CASCADE',
+    });
 
-    // Burada comment ilişkisini ekliyoruz:
+    Post.belongsTo(models.Category, {
+      foreignKey: 'category_id',
+      as: 'category',
+      onDelete: 'SET NULL', // İstersen cascade de yapabilirsin
+    });
+
     Post.hasMany(models.Comment, {
       foreignKey: 'post_id',
       as: 'comments',
-      onDelete: 'CASCADE',  // Silme işlemi cascade olacak
-      hooks: true,          // Cascade için hooklar aktif
+      onDelete: 'CASCADE',
+      hooks: true,
+    });
+
+    Post.belongsToMany(models.Tag, {
+      through: models.PostTag,
+      foreignKey: 'post_id',
+      otherKey: 'tag_id',
+      as: 'tags',
     });
   };
 

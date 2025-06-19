@@ -14,6 +14,9 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
+      validate: {
+        isEmail: true,
+      },
     },
     password: {
       type: DataTypes.STRING,
@@ -21,12 +24,18 @@ module.exports = (sequelize, DataTypes) => {
     },
     role: {
       type: DataTypes.ENUM('user', 'admin', 'superadmin'),
+      allowNull: false,
       defaultValue: 'user',
-      allowNull: true,
     },
     jwtTokenVersion: {
       type: DataTypes.INTEGER,
+      allowNull: false,
       defaultValue: 0,
+    },
+    created_at: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW,
     },
   }, {
     tableName: 'users',
@@ -35,7 +44,6 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   User.associate = (models) => {
-    // User has many Posts
     User.hasMany(models.Post, {
       foreignKey: 'user_id',
       as: 'posts',
@@ -43,7 +51,6 @@ module.exports = (sequelize, DataTypes) => {
       hooks: true,
     });
 
-    // User has many Comments
     User.hasMany(models.Comment, {
       foreignKey: 'user_id',
       as: 'comments',
