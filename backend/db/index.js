@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 require('dotenv').config();
 
+
 const sequelize = new Sequelize(
   process.env.DB_NAME,
   process.env.DB_USER,
@@ -11,6 +12,12 @@ const sequelize = new Sequelize(
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
     dialect: process.env.DB_DIALECT,
+    dialectOptions: {
+      // Bu opsiyon RSA public key’in client tarafından alınmasına izin veriyor
+      allowPublicKeyRetrieval: true,
+      // Güvenlik sebebiyle SSL kullanmak iyi olur (opsiyonel)
+      ssl: false, 
+    },
     logging: false,
   }
 );
