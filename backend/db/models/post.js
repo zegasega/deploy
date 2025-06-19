@@ -34,6 +34,14 @@ module.exports = (sequelize, DataTypes) => {
   Post.associate = (models) => {
     Post.belongsTo(models.User, { foreignKey: 'user_id', as: 'author' });
     Post.belongsTo(models.Category, { foreignKey: 'category_id', as: 'category' });
+
+    // Burada comment ilişkisini ekliyoruz:
+    Post.hasMany(models.Comment, {
+      foreignKey: 'post_id',
+      as: 'comments',
+      onDelete: 'CASCADE',  // Silme işlemi cascade olacak
+      hooks: true,          // Cascade için hooklar aktif
+    });
   };
 
   return Post;

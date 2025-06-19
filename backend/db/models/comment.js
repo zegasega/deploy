@@ -28,8 +28,18 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Comment.associate = (models) => {
-    Comment.belongsTo(models.Post, { foreignKey: 'post_id', as: 'post' });
-    Comment.belongsTo(models.User, { foreignKey: 'user_id', as: 'author' });
+    Comment.belongsTo(models.Post, { 
+      foreignKey: 'post_id', 
+      as: 'post', 
+      onDelete: 'CASCADE',
+      hooks: true,
+    });
+    Comment.belongsTo(models.User, { 
+      foreignKey: 'user_id', 
+      as: 'author', 
+      onDelete: 'CASCADE',
+      hooks: true,
+    });
   };
 
   return Comment;
