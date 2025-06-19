@@ -35,17 +35,22 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   User.associate = (models) => {
+    // User has many Posts
     User.hasMany(models.Post, {
       foreignKey: 'user_id',
       as: 'posts',
+      onDelete: 'CASCADE',
+      hooks: true,
+    });
+
+    // User has many Comments
+    User.hasMany(models.Comment, {
+      foreignKey: 'user_id',
+      as: 'comments',
+      onDelete: 'CASCADE',
+      hooks: true,
     });
   };
-  User.hasMany(models.Comment, {
-    foreignKey: 'user_id',
-    as: 'comments',
-    onDelete: 'CASCADE',
-    hooks: true,
-  });
 
   return User;
 };
