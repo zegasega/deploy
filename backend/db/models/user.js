@@ -1,5 +1,3 @@
-const { allow } = require("joi");
-
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
     id: {

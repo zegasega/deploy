@@ -1,4 +1,4 @@
-module.exports = function validateBody(schema) {
+const validateBody = (schema) => {
   return (req, res, next) => {
     if (!schema || typeof schema.validate !== 'function') {
       console.error("❌ Geçersiz Joi şeması:", schema);
@@ -16,3 +16,5 @@ module.exports = function validateBody(schema) {
     next();
   };
 };
+
+module.exports = validateBody;

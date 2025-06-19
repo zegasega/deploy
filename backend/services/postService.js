@@ -72,7 +72,7 @@ class postService extends BaseService{
     
         const posts = await this.db.Post.findAll({
             where: {
-                user_id: parseInt(userId, 10) // sayıya çevrilmiş olsun
+                user_id: parseInt(userId, 10)
             },
             include: [
                 {
