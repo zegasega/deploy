@@ -11,7 +11,7 @@ services:
       MYSQL_USER: bloguser
       MYSQL_PASSWORD: blogpass
     ports:
-      - "3307:3306"  # Host 3307 -> Container 3306
+      - "3306:3306"  # Host 3307 -> Container 3306
     volumes:
       - my_mariadb_data:/var/lib/mysql
 
