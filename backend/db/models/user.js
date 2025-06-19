@@ -40,6 +40,12 @@ module.exports = (sequelize, DataTypes) => {
       as: 'posts',
     });
   };
+  User.hasMany(models.Comment, {
+    foreignKey: 'user_id',
+    as: 'comments',
+    onDelete: 'CASCADE',
+    hooks: true,
+  });
 
   return User;
 };
