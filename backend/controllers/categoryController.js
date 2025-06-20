@@ -1,6 +1,6 @@
 const BaseController = require("../core/base_controller");
 
-class categoryControllar extends BaseController{
+class categoryControllar extends BaseController {
     constructor() {
         super();
     }

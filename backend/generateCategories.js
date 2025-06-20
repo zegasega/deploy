@@ -7,7 +7,7 @@ async function insertDefaultCategories() {
     const [category, created] = await db.Category.findOrCreate({
       where: { name }
     });
-    if(created) {
+    if (created) {
       console.log(`Default category '${name}' created.`);
     }
   }

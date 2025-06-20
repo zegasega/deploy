@@ -1,7 +1,7 @@
 const BaseController = require("../core/base_controller");
 
-class likeController extends BaseController{
-    constructor(){
+class likeController extends BaseController {
+    constructor() {
         super();
     }
 

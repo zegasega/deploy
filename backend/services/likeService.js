@@ -16,10 +16,10 @@ class likeService extends BaseService {
     if (existingLike) {
 
       await existingLike.destroy();
-      return {message: "post unliked"};
+      return { message: "post unliked" };
     } else {
       await this.model.create({ user_id: userId, post_id: postId });
-      return {message: "post liked"};
+      return { message: "post liked" };
     }
   }
 }

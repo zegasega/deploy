@@ -9,6 +9,10 @@ const commentController = require("../controllers/commentController");
 const likeController = require("../controllers/likeController");
 const schemas = require("../validators/index");
 
+const multer = require('multer');
+const upload = multer({ dest: 'tmp/' });
+
+
 const validateBody = require("../middleware/validationMiddleware");
 
 // User routes
@@ -26,7 +30,7 @@ router.delete("/auth/user", authMiddleware, (req, res) => userController.delete(
 // Post routes
 router.get("/posts", authMiddleware, (req, res) => postController.getAllPosts(req, res));
 router.get("/posts/:id", authMiddleware, (req, res) => postController.getPostById(req, res));
-router.post("/posts", authMiddleware,(req, res) => postController.createPost(req, res));
+router.post("/posts", upload.single("image") ,authMiddleware,(req, res) => postController.createPost(req, res));
 router.put("/posts/:id", authMiddleware, (req, res) => postController.updatePost(req, res));
 router.delete("/posts/:id", authMiddleware, (req, res) => postController.deletePost(req, res));
 router.get("/post/user/me", authMiddleware, (req, res) => postController.getPostsByUserId(req, res));

@@ -2,7 +2,7 @@ const BaseService = require("../core/base_service");
 const db = require("../db/index");
 
 
-class categoryService extends BaseService{
+class categoryService extends BaseService {
     constructor() {
         super(db.Category);
         this.db = db;

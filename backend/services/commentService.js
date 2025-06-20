@@ -1,6 +1,6 @@
 const BaseService = require("../core/base_service");
 const db = require("../db/index");
-class commentService extends BaseService{
+class commentService extends BaseService {
     constructor() {
         super(db.Comment);
         this.db = db;
@@ -17,17 +17,17 @@ class commentService extends BaseService{
 
     async getCommentsByPostId(postId) {
         return await this.db.Comment.findAll({
-        where: { post_id: postId },
-        include: [
-            {
-            model: this.db.User,
-            as: 'author',
-            attributes: ['id', 'username']
-            }
-        ],
-        order: [['created_at', 'ASC']],
+            where: { post_id: postId },
+            include: [
+                {
+                    model: this.db.User,
+                    as: 'author',
+                    attributes: ['id', 'username']
+                }
+            ],
+            order: [['created_at', 'ASC']],
         });
-  }
+    }
 }
 
 module.exports = new commentService();

@@ -16,14 +16,14 @@ async function startServer() {
     await db.sequelize.authenticate();
     console.log('Database connection successful');
 
-    await db.sequelize.sync({ alter: true, force: true });
+    await db.sequelize.sync({ alter: true, force: false });
 
 
     console.log('Tables synchronized');
 
     await insertDefaultCategories();
     console.log('Default categories inserted');
-    
+
     server.listen(PORT, () => {
       console.log(`Server is running at http://localhost:${PORT}`);
     });
