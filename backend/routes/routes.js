@@ -34,7 +34,6 @@ router.post("/posts", upload.single("image") ,authMiddleware,(req, res) => postC
 router.put("/posts/:id", authMiddleware, (req, res) => postController.updatePost(req, res));
 router.delete("/posts/:id", authMiddleware, (req, res) => postController.deletePost(req, res));
 router.get("/post/user/me", authMiddleware, (req, res) => postController.getPostsByUserId(req, res));
-router.post('/like/:postId', authMiddleware, likeController.ToggleLike.bind(likeController));
 
 // Category routes
 router.get("/categories", authMiddleware, (req, res) => categoriyController.getAll(req, res));
@@ -47,8 +46,9 @@ router.delete("/categories/:id", authMiddleware, roleMiddleware("admin"), (req, 
 router.post("/comments", authMiddleware, (req, res) => commentController.createComment(req, res));
 router.get("/comments/post/:postId", authMiddleware, (req, res) => commentController.getCommentsByPost(req, res));
 
+// like routes
+router.post('/like/:postId', authMiddleware, likeController.ToggleLike.bind(likeController));
 
 
-// like
 
 module.exports = router;
