@@ -60,11 +60,8 @@ class postController extends BaseController{
         try {
             const postId = req.params.id;
             const userId = req.user.id;  // Auth middleware’den geliyor
-            const post_comments = await this.service.commentService.getCommentsByPostId(postId);
-            if (post_comments !== 0){
             const result = await this.service.postService.deletePost(postId, userId);
-
-            }
+         
             res.status(200).json(result);
         } catch (error) {
             res.status(404).json({ error: error.message });

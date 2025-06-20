@@ -17,10 +17,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    parent_comment_id: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-    },
     created_at: {
       type: DataTypes.DATE,
       allowNull: false,
@@ -33,7 +29,6 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Comment.associate = (models) => {
-    // Her yorum bir posta aittir
     Comment.belongsTo(models.Post, {
       foreignKey: 'post_id',
       as: 'post',
@@ -41,26 +36,9 @@ module.exports = (sequelize, DataTypes) => {
       hooks: true,
     });
 
-    // Her yorum bir kullanıcıya aittir
     Comment.belongsTo(models.User, {
       foreignKey: 'user_id',
       as: 'author',
-      onDelete: 'CASCADE',
-      hooks: true,
-    });
-
-    // Nested comment (bir yorumun alt yorumu olabilir)
-    Comment.belongsTo(models.Comment, {
-      foreignKey: 'parent_comment_id',
-      as: 'parent',
-      onDelete: 'CASCADE',
-      hooks: true,
-    });
-
-    // Yorumun alt yorumları (replies)
-    Comment.hasMany(models.Comment, {
-      foreignKey: 'parent_comment_id',
-      as: 'replies',
       onDelete: 'CASCADE',
       hooks: true,
     });

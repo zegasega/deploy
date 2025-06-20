@@ -13,12 +13,11 @@ const sequelize = new Sequelize(
     port: process.env.DB_PORT,
     dialect: process.env.DB_DIALECT,
     dialectOptions: {
-      // Bu opsiyon RSA public key’in client tarafından alınmasına izin veriyor
       allowPublicKeyRetrieval: true,
-      // Güvenlik sebebiyle SSL kullanmak iyi olur (opsiyonel)
       ssl: false, 
     },
     logging: false,
+    
   }
 );
 

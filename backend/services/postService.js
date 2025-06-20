@@ -48,17 +48,28 @@ class postService extends BaseService{
 
 
 
-    async deletePost(postId, userId) {
+   async deletePost(postId, userId) {
         const post = await this.db.Post.findByPk(postId);
         if (!post) {
             throw new Error("There is no post with this ID");
         }
 
-        if (post.user_id !== userId) {  // post.id değil post.user_id olmalı
+        if (post.user_id !== userId) {
             throw new Error("Başkasının postunu silemezsin");
         }
 
-        await post.destroy();
+        await this.db.sequelize.transaction(async (t) => {
+            await this.db.Comment.destroy({
+                where: { post_id: postId },
+                transaction: t
+            });
+
+            await this.db.Post.destroy({
+                where: { id: postId },
+                transaction: t
+            });
+        });
+
         return { message: "Post deleted successfully" };
     }
 

@@ -60,12 +60,6 @@ module.exports = (sequelize, DataTypes) => {
       hooks: true,
     });
 
-    Post.belongsToMany(models.Tag, {
-      through: models.PostTag,
-      foreignKey: 'post_id',
-      otherKey: 'tag_id',
-      as: 'tags',
-    });
   };
 
   return Post;
