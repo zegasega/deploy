@@ -2,6 +2,7 @@ const http = require('http');
 const app = require('./app');
 const db = require('./db/index');
 require('dotenv').config();
+const insertDefaultCategories = require('./generateCategories');
 
 
 
@@ -16,8 +17,13 @@ async function startServer() {
     console.log('Database connection successful');
 
     await db.sequelize.sync({ alter: true, force: true });
+
+
     console.log('Tables synchronized');
-    
+
+    await insertDefaultCategories();
+    console.log('Default categories inserted');
+
     server.listen(PORT, () => {
       console.log(`Server is running at http://localhost:${PORT}`);
     });

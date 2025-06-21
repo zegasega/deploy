@@ -21,13 +21,26 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT,
       allowNull: false,
     },
+    image_url: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
     is_published: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
+    created_at: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
+      allowNull: false,
+    },
+    updated_at: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
   }, {
     tableName: 'posts',
-    timestamps: false,
+    timestamps: false, // timestamps: true dersen createdAt & updatedAt otomatik eklenir
     underscored: true,
   });
 
@@ -35,7 +48,22 @@ module.exports = (sequelize, DataTypes) => {
     Post.belongsTo(models.User, {
       foreignKey: 'user_id',
       as: 'author',
+      onDelete: 'CASCADE',
     });
+
+    Post.belongsTo(models.Category, {
+      foreignKey: 'category_id',
+      as: 'category',
+      onDelete: 'SET NULL', // İstersen cascade de yapabilirsin
+    });
+
+    Post.hasMany(models.Comment, {
+      foreignKey: 'post_id',
+      as: 'comments',
+      onDelete: 'CASCADE',
+      hooks: true,
+    });
+
   };
 
   return Post;

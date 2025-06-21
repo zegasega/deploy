@@ -1,42 +1,45 @@
 const BaseService = require("../core/base_service");
 
 const db = require("../db/index");
+const role = require("../middleware/role");
 
-class userService extends BaseService{
+class userService extends BaseService {
     constructor() {
         super(db.User)
         this.db = db;
     }
 
-  async register(userPayload) {
-    const existingUser = await this.db.User.findOne({
-        where: {
-            email: userPayload.email
-        }
-    });
+    async register(userPayload) {
+        const existingUser = await this.db.User.findOne({
+            where: {
+                email: userPayload.email
+            }
+        });
 
-    if (existingUser) {
-        throw new Error("User with this email already exists");
+        if (existingUser) {
+            throw new Error("User with this email already exists");
+        }
+
+        const hashedPassword = await this.Utils.hashPassword(userPayload.password);
+        const newUser = {
+            username: userPayload.username,
+            email: userPayload.email,
+            password: hashedPassword,
+            role: userPayload.role,
+            jwtTokenVersion: 0 // Initialize JWT token version
+        };
+        const createdUser = await this.db.User.create(newUser);
+
+        return {
+            message: "User registered successfully",
+            user: {
+                id: createdUser.id,
+                username: createdUser.username,
+                email: createdUser.email,
+                role: createdUser.role
+            }
+        };
     }
-
-    const hashedPassword = await this.Utils.hashPassword(userPayload.password);
-    const newUser = {
-        username: userPayload.username,
-        email: userPayload.email,
-        password: hashedPassword,
-        jwtTokenVersion: 0 // Initialize JWT token version
-    };
-    const createdUser = await this.db.User.create(newUser);
-
-    return {
-        message: "User registered successfully",
-        user: {
-            id: createdUser.id,
-            username: createdUser.username,
-            email: createdUser.email
-        }
-    };
-}
 
     async login(email, password) {
 
@@ -54,10 +57,10 @@ class userService extends BaseService{
             throw new Error("Invalid password");
         }
 
-       const accessToken = this.Utils.generateAccessToken({ id: user.id, jwtTokenVersion: user.jwtTokenVersion });
-       const refreshToken = this.Utils.generateRefreshToken({ id: user.id, jwtTokenVersion: user.jwtTokenVersion });
+        const accessToken = this.Utils.generateAccessToken({ id: user.id, username: user.username, role: user.role, jwtTokenVersion: user.jwtTokenVersion });
+        const refreshToken = this.Utils.generateRefreshToken({ id: user.id, username: user.username, role: user.role, jwtTokenVersion: user.jwtTokenVersion });
 
-        
+
         return {
             message: "Login successful",
             user: {
@@ -69,7 +72,7 @@ class userService extends BaseService{
             refreshToken
         };
     }
-    
+
     async logout(userId) {
         const user = await this.db.User.findByPk(userId);
         if (!user) {

@@ -8,12 +8,10 @@ module.exports = (sequelize, DataTypes) => {
     post_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      references: { model: 'posts', key: 'id' },
     },
     user_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      references: { model: 'users', key: 'id' },
     },
     content: {
       type: DataTypes.TEXT,
@@ -21,12 +19,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     created_at: {
       type: DataTypes.DATE,
+      allowNull: false,
       defaultValue: DataTypes.NOW,
-    },
-    parent_comment_id: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-      references: { model: 'comments', key: 'id' },
     },
   }, {
     tableName: 'comments',
@@ -35,17 +29,18 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Comment.associate = (models) => {
-    Comment.belongsTo(models.Post, { foreignKey: 'post_id', as: 'post' });
-    Comment.belongsTo(models.User, { foreignKey: 'user_id', as: 'author' });
-
-    // Nested comments (self-association)
-    Comment.hasMany(models.Comment, {
-      foreignKey: 'parent_comment_id',
-      as: 'replies'
+    Comment.belongsTo(models.Post, {
+      foreignKey: 'post_id',
+      as: 'post',
+      onDelete: 'CASCADE',
+      hooks: true,
     });
-    Comment.belongsTo(models.Comment, {
-      foreignKey: 'parent_comment_id',
-      as: 'parentComment'
+
+    Comment.belongsTo(models.User, {
+      foreignKey: 'user_id',
+      as: 'author',
+      onDelete: 'CASCADE',
+      hooks: true,
     });
   };
 

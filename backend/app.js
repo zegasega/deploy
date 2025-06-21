@@ -25,6 +25,7 @@ const corsOptions = {
   credentials: true,                                       // Tarayıcıdan gelen cookie, authorization header vb. bilgiler iletmeye izin verir
   optionsSuccessStatus: 200 
 };
+app.set('trust proxy', true);
 
 app.use(cors(corsOptions));
 app.use(express.urlencoded({ extended: true }));

@@ -1,6 +1,6 @@
 const BaseController = require("../core/base_controller");
 
-class userController extends BaseController{
+class userController extends BaseController {
     constructor() {
         super();
     }
@@ -93,7 +93,7 @@ class userController extends BaseController{
             res.status(400).json({ error: error.message });
         }
     }
-    
+
 }
 
 module.exports = new userController();
