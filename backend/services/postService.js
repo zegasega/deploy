@@ -21,7 +21,7 @@ class PostService extends BaseService {
         const post = await this.db.Post.findByPk(postId, {
             include: [{ model: this.db.User, as: "author" }],
         });
-        if (!post) throw new Error("Post bulunamadı");
+        if (!post) throw new Error("Post bulunamaduuuuı");
         return post;
     }
 
